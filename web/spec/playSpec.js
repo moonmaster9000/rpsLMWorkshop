@@ -27,6 +27,7 @@ const RpsApp = React.createClass({
     },
 
     noHistory(){
+        this.setState({roundsView: 'NO HISTORY'})
     },
 
     history(rounds){
@@ -167,7 +168,7 @@ describe("play", function () {
             })
         })
 
-        it("tells the user 'NO HISTORY'", function () {
+        it("show the user the history", function () {
             expect(page()).toContain("foo")
             expect(page()).toContain("bar")
             expect(page()).toContain("baz")
