@@ -1,11 +1,17 @@
 const React = require("react")
 const ReactDOM = require("react-dom")
 
+const { Round } = require("rps")
+
 const RpsApp = React.createClass({
     getInitialState(){
         return {
             message: null
         }
+    },
+
+    componentDidMount(){
+        this.props.rps.history(this)
     },
 
     submitForm(){
@@ -18,6 +24,13 @@ const RpsApp = React.createClass({
 
     tie(){
         this.setState({message: "TIE"})
+    },
+
+    noHistory(){
+    },
+
+    history(rounds){
+        this.setState({roundsView: rounds.map(r => `${r.p1Throw} ${r.p2Throw} ${r.result}`)})
     },
 
     winner(player){
@@ -39,6 +52,8 @@ const RpsApp = React.createClass({
                 <input type="text" id="p1Throw" onChange={this.p1ThrowChangeHandler}/>
                 <input type="text" id="p2Throw" onChange={this.p2ThrowChangeHandler}/>
                 <button id="playButton" onClick={this.submitForm}>Play</button>
+
+                {this.state.roundsView}
             </div>
         )
     }
@@ -127,6 +142,38 @@ describe("play", function () {
         expect(playSpy).toHaveBeenCalledWith(p1Throw,  p2Throw, jasmine.any(Object))
     })
 
+    describe("when there is no history", function () {
+        beforeEach(function () {
+            renderApp({
+                history: function(ui){
+                    ui.noHistory()
+                }
+            })
+        })
+
+        it("tells the user 'NO HISTORY'", function () {
+            expect(page()).toContain("NO HISTORY")
+        })
+    })
+
+    describe("when there is history", function () {
+        beforeEach(function () {
+            renderApp({
+                history: function(ui){
+                    ui.history([
+                        new Round("foo", "bar", "baz")
+                    ])
+                }
+            })
+        })
+
+        it("tells the user 'NO HISTORY'", function () {
+            expect(page()).toContain("foo")
+            expect(page()).toContain("bar")
+            expect(page()).toContain("baz")
+        })
+    })
+
     let domFixture
 
 
@@ -151,6 +198,8 @@ describe("play", function () {
     })
 
     function renderApp(rps) {
+        rps.history = rps.history || function(){}
+
         ReactDOM.render(
             <RpsApp rps={rps}/>,
             domFixture

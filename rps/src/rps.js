@@ -64,5 +64,6 @@ function PlayUseCase(p1, p2, ui, roundRepo){
 }
 
 module.exports = {
-    RPS
+    RPS,
+    Round
 }
