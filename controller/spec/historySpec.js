@@ -1,4 +1,4 @@
-const { RPS } = require("../src/rps")
+const { RPSController } = require("../src/rpsController")
 const Round = require("../src/Round")
 const FakeRoundRepo = require("./FakeRoundRepo")
 
@@ -38,7 +38,7 @@ describe("history", function () {
 
     beforeEach(function () {
         roundRepo = new FakeRoundRepo()
-        rps = new RPS()
+        rps = new RPSController()
     })
 })
 

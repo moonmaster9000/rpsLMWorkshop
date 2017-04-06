@@ -1,11 +1,11 @@
-const { RPS } = require("../src/rps")
+const { RPSController } = require("../src/RPSController")
 const FakeRoundRepo = require("./FakeRoundRepo")
 
 describe("play", function () {
     let rps, ui, roundRepo
 
     beforeEach(function () {
-        rps = new RPS()
+        rps = new RPSController()
         roundRepo = new FakeRoundRepo()
     })
 
